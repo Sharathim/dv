@@ -735,41 +735,8 @@
                     <input type="number" id="projectYear">
                 </div>
                 <div class="form-group">
-                    <label>Project Image</label>
-                    <div style="margin-top: 10px;">
-                        <div style="display: flex; gap: 10px; margin-bottom: 15px; border-bottom: 2px solid #e0e0e0; padding-bottom: 10px;">
-                            <button type="button" class="image-tab-btn active" onclick="switchImageTab('default')" style="flex: 1; padding: 8px; background: transparent; border: none; cursor: pointer; font-size: 0.9rem; font-weight: 600; color: #686868; border-bottom: 3px solid transparent; margin-bottom: -10px;">📸 Select Default</button>
-                            <button type="button" class="image-tab-btn" onclick="switchImageTab('upload')" style="flex: 1; padding: 8px; background: transparent; border: none; cursor: pointer; font-size: 0.9rem; font-weight: 600; color: #686868; border-bottom: 3px solid transparent; margin-bottom: -10px;">⬆️ Upload File</button>
-                            <button type="button" class="image-tab-btn" onclick="switchImageTab('url')" style="flex: 1; padding: 8px; background: transparent; border: none; cursor: pointer; font-size: 0.9rem; font-weight: 600; color: #686868; border-bottom: 3px solid transparent; margin-bottom: -10px;">🔗 URL</button>
-                        </div>
-                        
-                        <!-- Default Images Tab -->
-                        <div id="defaultImageTab" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px;">
-                            <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=300&h=300&fit=crop" onclick="selectDefaultImage(this)" style="cursor: pointer; border-radius: 8px; border: 3px solid transparent; width: 100%; aspect-ratio: 1; object-fit: cover; transition: all 0.2s;" class="default-img" alt="Image 1">
-                            <img src="https://images.unsplash.com/photo-1512207736139-6c3ee1510e8b?w=300&h=300&fit=crop" onclick="selectDefaultImage(this)" style="cursor: pointer; border-radius: 8px; border: 3px solid transparent; width: 100%; aspect-ratio: 1; object-fit: cover; transition: all 0.2s;" class="default-img" alt="Image 2">
-                            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=300&h=300&fit=crop" onclick="selectDefaultImage(this)" style="cursor: pointer; border-radius: 8px; border: 3px solid transparent; width: 100%; aspect-ratio: 1; object-fit: cover; transition: all 0.2s;" class="default-img" alt="Image 3">
-                            <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=300&h=300&fit=crop" onclick="selectDefaultImage(this)" style="cursor: pointer; border-radius: 8px; border: 3px solid transparent; width: 100%; aspect-ratio: 1; object-fit: cover; transition: all 0.2s;" class="default-img" alt="Image 4">
-                            <img src="https://images.unsplash.com/photo-1560185008-b033106af5c3?w=300&h=300&fit=crop" onclick="selectDefaultImage(this)" style="cursor: pointer; border-radius: 8px; border: 3px solid transparent; width: 100%; aspect-ratio: 1; object-fit: cover; transition: all 0.2s;" class="default-img" alt="Image 5">
-                            <img src="https://images.unsplash.com/photo-1494526585095-c41746248156?w=300&h=300&fit=crop" onclick="selectDefaultImage(this)" style="cursor: pointer; border-radius: 8px; border: 3px solid transparent; width: 100%; aspect-ratio: 1; object-fit: cover; transition: all 0.2s;" class="default-img" alt="Image 6">
-                        </div>
-                        
-                        <!-- Upload File Tab -->
-                        <div id="uploadImageTab" style="display: none;">
-                            <input type="file" id="projectImageFile" accept="image/*" onchange="handleImageUpload(this)" style="padding: 8px; border: 2px dashed #d0d0d0; border-radius: 6px; width: 100%;">
-                            <p style="font-size: 0.85rem; color: #999; margin-top: 8px;">Supported: JPG, PNG, GIF, WebP (Max 5MB)</p>
-                        </div>
-                        
-                        <!-- URL Tab -->
-                        <div id="urlImageTab" style="display: none;">
-                            <input type="url" id="projectImage" placeholder="https://example.com/image.jpg" style="width: 100%; padding: 8px; border: 1px solid #d0d0d0; border-radius: 6px;">
-                        </div>
-                        
-                        <!-- Image Preview -->
-                        <div id="imagePreview" style="display: none; margin-top: 15px;">
-                            <p style="font-size: 0.85rem; color: #666; margin-bottom: 8px;">Preview:</p>
-                            <img id="previewImage" src="" style="width: 100%; max-width: 300px; border-radius: 8px; border: 1px solid #e0e0e0;">
-                        </div>
-                    </div>
+                    <label for="projectImage">Image URL</label>
+                    <input type="url" id="projectImage">
                 </div>
                 <div class="modal-actions">
                     <button type="button" class="btn btn-secondary" onclick="closeModal('projectModal')">Cancel</button>
@@ -1147,81 +1114,6 @@
             alertDiv.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i> <span>${message}</span>`;
             document.querySelector('.main-content').insertBefore(alertDiv, document.querySelector('.main-content').firstChild);
             setTimeout(() => alertDiv.remove(), 4000);
-        }
-
-        // Image tab switching functions
-        function switchImageTab(tabName) {
-            // Hide all tabs
-            document.getElementById('defaultImageTab').style.display = 'none';
-            document.getElementById('uploadImageTab').style.display = 'none';
-            document.getElementById('urlImageTab').style.display = 'none';
-            
-            // Deactivate all tab buttons
-            document.querySelectorAll('.image-tab-btn').forEach(btn => {
-                btn.style.borderBottomColor = 'transparent';
-                btn.style.color = '#686868';
-            });
-            
-            // Show selected tab and activate button
-            if (tabName === 'default') {
-                document.getElementById('defaultImageTab').style.display = 'grid';
-                document.querySelectorAll('.image-tab-btn')[0].style.borderBottomColor = '#f5c400';
-                document.querySelectorAll('.image-tab-btn')[0].style.color = '#171717';
-            } else if (tabName === 'upload') {
-                document.getElementById('uploadImageTab').style.display = 'block';
-                document.querySelectorAll('.image-tab-btn')[1].style.borderBottomColor = '#f5c400';
-                document.querySelectorAll('.image-tab-btn')[1].style.color = '#171717';
-            } else if (tabName === 'url') {
-                document.getElementById('urlImageTab').style.display = 'block';
-                document.querySelectorAll('.image-tab-btn')[2].style.borderBottomColor = '#f5c400';
-                document.querySelectorAll('.image-tab-btn')[2].style.color = '#171717';
-            }
-        }
-
-        // Select default image
-        function selectDefaultImage(imgElement) {
-            const imageUrl = imgElement.src;
-            document.getElementById('projectImage').value = imageUrl;
-            
-            // Show preview
-            const preview = document.getElementById('imagePreview');
-            const previewImg = document.getElementById('previewImage');
-            previewImg.src = imageUrl;
-            preview.style.display = 'block';
-            
-            // Highlight selected image
-            document.querySelectorAll('.default-img').forEach(img => {
-                img.style.borderColor = 'transparent';
-            });
-            imgElement.style.borderColor = '#f5c400';
-        }
-
-        // Handle file upload
-        function handleImageUpload(input) {
-            if (input.files && input.files[0]) {
-                const file = input.files[0];
-                
-                // Check file size (max 5MB)
-                if (file.size > 5 * 1024 * 1024) {
-                    showAlert('File size must be less than 5MB', 'danger');
-                    input.value = '';
-                    return;
-                }
-                
-                // Convert file to data URL
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    const dataUrl = e.target.result;
-                    document.getElementById('projectImage').value = dataUrl;
-                    
-                    // Show preview
-                    const preview = document.getElementById('imagePreview');
-                    const previewImg = document.getElementById('previewImage');
-                    previewImg.src = dataUrl;
-                    preview.style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-            }
         }
     </script>
 </body>

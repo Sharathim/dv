@@ -65,8 +65,52 @@
                     <p>Each DV project is shaped around liveable planning, dependable execution, and a homeowner
                         experience that stays personal.</p>
                 </div>
-                <div class="project-grid" id="ongoingProjectsGrid">
-                    <!-- Loaded from API -->
+                <div class="project-grid">
+                    <article class="project-card reveal">
+                        <img src="static/images/slide1.jpg" alt="DV Emerald project">
+                        <div class="project-body">
+                            <span class="project-tag">New Launch</span>
+                            <h3>DV Emerald</h3>
+                            <p>A refined residential address planned for comfort, convenience, and long-term value.</p>
+                            <div class="project-meta">
+                                <span>Premium homes</span>
+                                <span>Surapet</span>
+                            </div>
+                            <a href="dv-emerald.html" class="btn btn-primary"><i class="fas fa-arrow-right"></i> View
+                                Project</a>
+                        </div>
+                    </article>
+
+                    <article class="project-card reveal">
+                        <img src="static/images/slide2.jpg" alt="DV Marina project">
+                        <div class="project-body">
+                            <span class="project-tag">Ongoing</span>
+                            <h3>DV Marina</h3>
+                            <p>Smart residential planning with the details modern families expect every day.</p>
+                            <div class="project-meta">
+                                <span>Modern living</span>
+                                <span>Quality build</span>
+                            </div>
+                            <a href="dv-marina.html" class="btn btn-primary"><i class="fas fa-arrow-right"></i> View
+                                Project</a>
+                        </div>
+                    </article>
+
+                    <article class="project-card reveal">
+                        <img src="static/images/slide3.jpg" alt="DV Empire project">
+                        <div class="project-body">
+                            <span class="project-tag">Upcoming</span>
+                            <h3>DV Empire</h3>
+                            <p>A future-ready development designed with strong foundations and elegant everyday spaces.
+                            </p>
+                            <div class="project-meta">
+                                <span>Upcoming</span>
+                                <span>Family focused</span>
+                            </div>
+                            <a href="dv-empire.html" class="btn btn-primary"><i class="fas fa-arrow-right"></i> View
+                                Project</a>
+                        </div>
+                    </article>
                 </div>
             </div>
         </section>
@@ -112,54 +156,6 @@
     <a class="chat-float" href="contact.html" aria-label="Quick contact"><i class="fas fa-comment-dots"></i></a>
 
     <script src="static/js/site.js"></script>
-    <script>
-        // Fetch and display ongoing projects
-        async function loadOngoingProjects() {
-            try {
-                const response = await fetch('/api/projects', { cache: 'no-store' });
-                const projects = response.ok ? await response.json() : [];
-                
-                const grid = document.getElementById('ongoingProjectsGrid');
-                const ongoingProjects = projects.filter(p => p.status === 'ongoing');
-                
-                if (ongoingProjects.length === 0) {
-                    grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #999; padding: 2rem;">No ongoing projects yet. Check back soon!</p>';
-                    return;
-                }
-                
-                grid.innerHTML = ongoingProjects.map(project => {
-                    // Map project titles to detail pages
-                    let detailPage = 'dv-emerald.html';
-                    if (project.title.toLowerCase().includes('marina')) {
-                        detailPage = 'dv-marina.html';
-                    } else if (project.title.toLowerCase().includes('empire')) {
-                        detailPage = 'dv-empire.html';
-                    }
-                    
-                    return `
-                        <article class="project-card reveal">
-                            <img src="${project.image || 'static/images/slide1.jpg'}" alt="${project.title}" style="aspect-ratio: 4/3; object-fit: cover;">
-                            <div class="project-body">
-                                <span class="project-tag">${project.category || 'Project'}</span>
-                                <h3>${project.title}</h3>
-                                <p>${project.description}</p>
-                                <div class="project-meta">
-                                    <span>${project.category || 'Residential'}</span>
-                                    <span>${project.location || 'Surapet'}</span>
-                                </div>
-                                <a href="${detailPage}" class="btn btn-primary"><i class="fas fa-arrow-right"></i> View Project</a>
-                            </div>
-                        </article>
-                    `;
-                }).join('');
-            } catch (error) {
-                document.getElementById('ongoingProjectsGrid').innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #999; padding: 2rem;">Unable to load ongoing projects.</p>';
-            }
-        }
-        
-        // Load projects when page loads
-        document.addEventListener('DOMContentLoaded', loadOngoingProjects);
-    </script>
 </body>
 
 </html>
