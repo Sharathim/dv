@@ -5,16 +5,20 @@ from functools import wraps
 from email.message import EmailMessage
 import os
 import smtplib
+from uuid import uuid4
 from dotenv import load_dotenv
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 app.secret_key = "dv_dream_homes_secret_key_2024"
 
 BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR / "data"
+UPLOADS_DIR = BASE_DIR / "static" / "assets" / "images" / "admin-uploads"
+ALLOWED_IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".avif"}
 CONTACT_TO_EMAIL = "rathisha273@gmail.com"
 
-load_dotenv(BASE_DIR / ".env")
+load_dotenv(BASE_DIR / ".env", override=True)
 
 
 @app.route("/")
@@ -115,6 +119,27 @@ def _send_contact_email(name: str, email: str, subject: str, message: str):
         server.send_message(email_message)
 
 
+def _is_allowed_image(filename: str) -> bool:
+    extension = Path(filename).suffix.lower()
+    return extension in ALLOWED_IMAGE_EXTENSIONS
+
+
+def _save_uploaded_image(file_storage) -> str:
+    original_name = secure_filename(file_storage.filename or "")
+    if not original_name or not _is_allowed_image(original_name):
+        raise ValueError("Only JPG, JPEG, PNG, WEBP, and AVIF files are allowed.")
+
+    extension = Path(original_name).suffix.lower()
+    base_name = Path(original_name).stem[:40] or "project-image"
+    unique_name = f"{base_name}-{uuid4().hex[:10]}{extension}"
+
+    UPLOADS_DIR.mkdir(parents=True, exist_ok=True)
+    target_path = UPLOADS_DIR / unique_name
+    file_storage.save(target_path)
+
+    return f"static/assets/images/admin-uploads/{unique_name}"
+
+
 @app.route("/api/projects")
 def api_projects():
     return jsonify(_read_json_array("projects.json"))
@@ -198,6 +223,24 @@ def admin_status():
         "authenticated": session.get("authenticated", False),
         "username": session.get("username", "")
     }), 200
+
+
+@app.route("/api/admin/upload-image", methods=["POST"])
+def admin_upload_image():
+    _require_admin(lambda: None)()
+
+    uploaded_image = request.files.get("image")
+    if uploaded_image is None or not (uploaded_image.filename or "").strip():
+        return jsonify({"ok": False, "error": "Please choose an image file."}), 400
+
+    try:
+        relative_path = _save_uploaded_image(uploaded_image)
+    except ValueError as exc:
+        return jsonify({"ok": False, "error": str(exc)}), 400
+    except Exception:
+        return jsonify({"ok": False, "error": "Failed to upload image."}), 500
+
+    return jsonify({"ok": True, "path": relative_path}), 201
 
 
 # ===== PROJECTS CRUD =====

@@ -22,6 +22,9 @@
             --font-display: "Cormorant Garamond", Georgia, serif;
             --font-head: "Bebas Neue", Impact, sans-serif;
             --font-body: "DM Sans", Arial, sans-serif;
+            --header-height: clamp(64px, 7.5vw, 78px);
+            --sidebar-width: clamp(220px, 22vw, 280px);
+            --page-padding: clamp(1rem, 2.4vw, 2rem);
         }
 
         * {
@@ -34,11 +37,16 @@
             height: 100%;
         }
 
+        html {
+            font-size: clamp(14px, 0.3vw + 13px, 16px);
+        }
+
         body {
             font-family: var(--font-body);
             background: var(--soft);
             color: var(--text);
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
         .admin-wrapper {
@@ -53,7 +61,8 @@
             right: 0;
             background: linear-gradient(135deg, var(--coal) 0%, var(--ink) 100%);
             color: var(--white);
-            padding: 1rem 2rem;
+            min-height: var(--header-height);
+            padding: clamp(0.7rem, 1.3vw, 1rem) var(--page-padding);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -70,14 +79,14 @@
         }
 
         .header-logo {
-            font-size: 1.8rem;
+            font-size: clamp(1.25rem, 1.4vw + 0.8rem, 1.8rem);
             font-family: var(--font-head);
             color: var(--gold);
             font-weight: bold;
         }
 
         .header-title {
-            font-size: 1.1rem;
+            font-size: clamp(0.95rem, 0.8vw + 0.7rem, 1.15rem);
             font-weight: 600;
             letter-spacing: 0.5px;
         }
@@ -85,7 +94,35 @@
         .header-user {
             display: flex;
             align-items: center;
-            gap: 1.5rem;
+            gap: clamp(0.6rem, 1.5vw, 1.5rem);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            width: 2.5rem;
+            height: 2.5rem;
+            border: 1px solid rgba(245, 196, 0, 0.5);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .mobile-menu-btn:hover {
+            background: rgba(245, 196, 0, 0.22);
+            border-color: rgba(245, 196, 0, 0.85);
+            transform: translateY(-1px);
+        }
+
+        body.sidebar-open .mobile-menu-btn {
+            background: rgba(245, 196, 0, 0.95);
+            color: #1e1e1e;
+            border-color: rgba(245, 196, 0, 1);
+            box-shadow: 0 6px 16px rgba(245, 196, 0, 0.32);
         }
 
         .user-info {
@@ -97,7 +134,7 @@
         }
 
         .logout-btn {
-            padding: 0.6rem 1.2rem;
+            padding: clamp(0.55rem, 1vw, 0.7rem) clamp(0.85rem, 1.8vw, 1.2rem);
             background: var(--gold);
             color: var(--coal);
             border: none;
@@ -106,7 +143,8 @@
             cursor: pointer;
             transition: all 0.3s ease;
             text-transform: uppercase;
-            font-size: 0.85rem;
+            font-size: clamp(0.78rem, 0.35vw + 0.7rem, 0.9rem);
+            white-space: nowrap;
         }
 
         .logout-btn:hover {
@@ -115,15 +153,19 @@
         }
 
         .sidebar {
-            width: 250px;
+            width: var(--sidebar-width);
             background: var(--white);
             border-right: 1px solid var(--line);
-            padding-top: 80px;
+            padding-top: var(--header-height);
             position: fixed;
             left: 0;
             top: 0;
             height: 100vh;
             overflow-y: auto;
+        }
+
+        .sidebar-backdrop {
+            display: none;
         }
 
         .sidebar-nav {
@@ -139,11 +181,12 @@
             display: flex;
             align-items: center;
             gap: 1rem;
-            padding: 1rem 1.5rem;
+            padding: clamp(0.8rem, 1.1vw, 1rem) clamp(1rem, 1.8vw, 1.5rem);
             color: var(--text);
             text-decoration: none;
             transition: all 0.3s ease;
             position: relative;
+            font-size: clamp(0.84rem, 0.3vw + 0.78rem, 0.95rem);
         }
 
         .sidebar-nav a:hover {
@@ -165,10 +208,10 @@
         }
 
         .main-content {
-            margin-left: 250px;
-            margin-top: 70px;
+            margin-left: var(--sidebar-width);
+            margin-top: var(--header-height);
             flex: 1;
-            padding: 2rem;
+            padding: var(--page-padding);
             background: var(--soft);
         }
 
@@ -189,36 +232,38 @@
         .section {
             background: var(--white);
             border-radius: 12px;
-            padding: 2rem;
+            padding: clamp(1rem, 2vw, 2rem);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            margin-bottom: 2rem;
+            margin-bottom: clamp(1rem, 2vw, 2rem);
         }
 
         .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1.5rem;
+            margin-bottom: clamp(1rem, 1.5vw, 2rem);
+            padding-bottom: clamp(0.8rem, 1.3vw, 1.5rem);
             border-bottom: 2px solid var(--line);
+            gap: 0.8rem;
+            flex-wrap: wrap;
         }
 
         .section-header h2 {
-            font-size: 1.8rem;
+            font-size: clamp(1.2rem, 1.6vw + 0.7rem, 1.8rem);
             font-family: var(--font-display);
             color: var(--coal);
             margin: 0;
         }
 
         .btn {
-            padding: 0.75rem 1.5rem;
+            padding: clamp(0.6rem, 1vw, 0.75rem) clamp(0.9rem, 1.8vw, 1.5rem);
             border: none;
             border-radius: 6px;
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s ease;
             text-transform: uppercase;
-            font-size: 0.85rem;
+            font-size: clamp(0.78rem, 0.3vw + 0.72rem, 0.88rem);
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
@@ -250,16 +295,26 @@
 
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(clamp(220px, 28vw, 300px), 1fr));
+            gap: clamp(1rem, 2vw, 2rem);
         }
 
         .card {
             background: var(--soft);
             border: 1px solid var(--line);
             border-radius: 8px;
-            padding: 1.5rem;
+            padding: clamp(1rem, 1.7vw, 1.5rem);
             transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .card-image {
+            width: 100%;
+            aspect-ratio: 16 / 10;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            background: rgba(0, 0, 0, 0.06);
         }
 
         .card:hover {
@@ -268,7 +323,7 @@
         }
 
         .card-title {
-            font-size: 1.2rem;
+            font-size: clamp(1.02rem, 0.7vw + 0.85rem, 1.2rem);
             font-weight: 600;
             margin-bottom: 0.8rem;
             color: var(--coal);
@@ -279,24 +334,26 @@
             font-size: 0.95rem;
             line-height: 1.5;
             margin-bottom: 1rem;
+            overflow-wrap: anywhere;
         }
 
         .card-actions {
             display: flex;
             gap: 0.8rem;
             margin-top: 1rem;
+            flex-wrap: wrap;
         }
 
         .stat-card {
             background: var(--white);
             border-radius: 8px;
-            padding: 2rem;
+            padding: clamp(1.1rem, 2.3vw, 2rem);
             text-align: center;
             border-left: 4px solid var(--gold);
         }
 
         .stat-number {
-            font-size: 2.5rem;
+            font-size: clamp(1.6rem, 2.7vw, 2.5rem);
             font-weight: bold;
             color: var(--gold);
         }
@@ -328,7 +385,7 @@
         .modal {
             background: var(--white);
             border-radius: 12px;
-            padding: 2rem;
+            padding: clamp(1rem, 2vw, 2rem);
             max-width: 600px;
             width: 90%;
             max-height: 90vh;
@@ -337,7 +394,7 @@
         }
 
         .modal-header {
-            font-size: 1.6rem;
+            font-size: clamp(1.2rem, 1.2vw + 0.85rem, 1.6rem);
             font-family: var(--font-display);
             color: var(--coal);
             margin-bottom: 1.5rem;
@@ -362,11 +419,11 @@
         .form-group textarea,
         .form-group select {
             width: 100%;
-            padding: 0.8rem;
+            padding: clamp(0.7rem, 1vw, 0.85rem);
             border: 2px solid var(--line);
             border-radius: 6px;
             font-family: var(--font-body);
-            font-size: 0.95rem;
+            font-size: clamp(0.9rem, 0.2vw + 0.86rem, 0.97rem);
             color: var(--text);
             background: var(--soft);
             transition: all 0.3s ease;
@@ -437,10 +494,12 @@
             color: var(--gold);
             font-size: 1.1rem;
             letter-spacing: 2px;
+            margin-bottom: 0.75rem;
         }
 
         .table-wrapper {
             overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         table {
@@ -472,52 +531,445 @@
             background: var(--gold-soft);
         }
 
-        @media (max-width: 768px) {
+        .main-content {
+            background:
+                radial-gradient(circle at 20% -10%, rgba(245, 196, 0, 0.1), transparent 35%),
+                radial-gradient(circle at 100% 0, rgba(0, 0, 0, 0.08), transparent 40%),
+                #f3f3f1;
+        }
+
+        header {
+            background: linear-gradient(120deg, #1f2733 0%, #253244 55%, #1f2733 100%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+        }
+
+        .header-brand {
+            gap: 0.75rem;
+        }
+
+        .header-logo {
+            display: inline-grid;
+            place-items: center;
+            width: 2.15rem;
+            height: 2.15rem;
+            border-radius: 0.55rem;
+            background: rgba(245, 196, 0, 0.14);
+            border: 1px solid rgba(245, 196, 0, 0.4);
+        }
+
+        .header-title {
+            letter-spacing: 0.02em;
+        }
+
+        .logout-btn {
+            border-radius: 10px;
+            font-weight: 700;
+            box-shadow: 0 6px 18px rgba(245, 196, 0, 0.25);
+        }
+
+        .sidebar {
+            background: #f7f8fb;
+            border-right: 1px solid rgba(17, 24, 39, 0.1);
+        }
+
+        .sidebar-nav li {
+            border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+        }
+
+        .sidebar-nav a {
+            color: #253244;
+            font-weight: 600;
+        }
+
+        .sidebar-nav a:hover {
+            background: rgba(37, 50, 68, 0.1);
+            color: #1f2733;
+            padding-left: 1.8rem;
+        }
+
+        .sidebar-nav a.active {
+            background: rgba(245, 196, 0, 0.24);
+            color: #1f2733;
+            border-left: 4px solid var(--gold);
+            box-shadow: inset 0 0 0 1px rgba(245, 196, 0, 0.28);
+        }
+
+        .sidebar-nav i {
+            color: #9c7700;
+        }
+
+        .section {
+            border-radius: 18px;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            box-shadow: 0 10px 34px rgba(12, 12, 12, 0.08);
+        }
+
+        .section-header {
+            border-bottom-color: rgba(0, 0, 0, 0.08);
+        }
+
+        .section-header h2 {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            letter-spacing: 0.01em;
+        }
+
+        .heading-icon {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 0.55rem;
+            display: inline-grid;
+            place-items: center;
+            background: rgba(245, 196, 0, 0.16);
+            color: #8e6800;
+            font-size: 0.9rem;
+        }
+
+        .dashboard-title {
+            font-size: clamp(1.3rem, 2.2vw, 2rem);
+            margin-bottom: 0.35rem;
+            font-family: var(--font-display);
+            color: #1e1e1e;
+            letter-spacing: 0.01em;
+        }
+
+        .dashboard-subtitle {
+            color: var(--muted);
+            margin-bottom: 1.6rem;
+        }
+
+        .stats-grid {
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 1rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(145deg, #ffffff 0%, #f9f9f8 100%);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            border-left: none;
+            border-radius: 14px;
+            padding: 1.1rem 1rem;
+            text-align: left;
+            display: flex;
+            gap: 0.85rem;
+            align-items: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-icon {
+            width: 2.8rem;
+            height: 2.8rem;
+            border-radius: 0.75rem;
+            display: grid;
+            place-items: center;
+            background: rgba(245, 196, 0, 0.14);
+            color: #8c6500;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .stat-content {
+            min-width: 0;
+        }
+
+        .stat-number {
+            line-height: 1.1;
+            color: #1f1f1f;
+            margin-bottom: 0.15rem;
+        }
+
+        .stat-label {
+            margin-top: 0;
+            font-size: 0.88rem;
+        }
+
+        .btn {
+            border-radius: 10px;
+            font-weight: 700;
+        }
+
+        .btn-primary {
+            background: linear-gradient(120deg, #1f2733, #2a3a4f);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-secondary {
+            border-color: rgba(0, 0, 0, 0.2);
+            background: #f8f8f7;
+        }
+
+        .card {
+            background: #fff;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 14px;
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.06);
+        }
+
+        .card:hover {
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.11);
+            border-color: rgba(245, 196, 0, 0.42);
+        }
+
+        .card-title {
+            color: #1f1f1f;
+            margin-bottom: 0.55rem;
+        }
+
+        .item-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.45rem;
+            margin-bottom: 0.9rem;
+        }
+
+        .pill {
+            background: rgba(245, 196, 0, 0.18);
+            border: 1px solid rgba(245, 196, 0, 0.35);
+            color: #7a5a00;
+            border-radius: 999px;
+            padding: 0.2rem 0.65rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .pill-muted {
+            background: rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.12);
+            color: #555;
+        }
+
+        .meta-list {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 1rem;
+            padding-top: 0.9rem;
+            border-top: 1px dashed rgba(0, 0, 0, 0.18);
+            display: grid;
+            gap: 0.3rem;
+        }
+
+        .meta-list strong {
+            color: #2a2a2a;
+        }
+
+        .section-intro {
+            color: #6d6d6d;
+            margin: 0 0 1.2rem;
+        }
+
+        .empty-state {
+            grid-column: 1/-1;
+            text-align: center;
+            color: var(--muted);
+            padding: 1.2rem;
+            border-radius: 12px;
+            border: 1px dashed rgba(0, 0, 0, 0.15);
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        .quote-text {
+            font-style: italic;
+            margin-bottom: 1rem;
+            color: #4b4b4b;
+        }
+
+        .testimonial-head {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .avatar-badge {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            background: rgba(245, 196, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #3b2d00;
+            border: 1px solid rgba(245, 196, 0, 0.4);
+        }
+
+        .author-name {
+            font-weight: 700;
+            color: #2b2b2b;
+        }
+
+        .author-date {
+            font-size: 0.82rem;
+            color: var(--muted);
+        }
+
+        .image-tools {
+            display: grid;
+            gap: 0.7rem;
+        }
+
+        .image-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            align-items: center;
+        }
+
+        .image-value {
+            width: 100%;
+        }
+
+        .image-help {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-top: -0.2rem;
+        }
+
+        .default-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(92px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .default-image-btn {
+            border: 2px solid transparent;
+            border-radius: 10px;
+            overflow: hidden;
+            padding: 0;
+            background: #fff;
+            cursor: pointer;
+            line-height: 0;
+        }
+
+        .default-image-btn img {
+            width: 100%;
+            height: 66px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .default-gallery {
+            max-height: 190px;
+            overflow-y: auto;
+            padding-right: 0.2rem;
+        }
+
+        .default-image-btn.active {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(245, 196, 0, 0.2);
+        }
+
+        .selected-image-preview {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 0, 0, 0.12);
+            background: rgba(0, 0, 0, 0.03);
+        }
+
+        .selected-image-preview.hidden {
+            display: none;
+        }
+
+        .modal {
+            border-radius: 16px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        @media (max-width: 900px) {
             header {
-                flex-direction: column;
-                gap: 1rem;
+                flex-wrap: nowrap;
+                gap: 0.75rem;
+            }
+
+            .mobile-menu-btn {
+                display: inline-flex;
+                background: #ffffff;
+                color: #1f2733;
+                border-color: rgba(245, 196, 0, 0.85);
+                box-shadow: 0 5px 14px rgba(0, 0, 0, 0.15);
             }
 
             .sidebar {
-                width: 100%;
-                height: auto;
+                width: min(84vw, 320px);
+                height: calc(100vh - var(--header-height));
                 padding-top: 0;
-                border-right: none;
-                border-bottom: 1px solid var(--line);
-                display: flex;
-                overflow-y: visible;
-                position: relative;
+                border-right: 1px solid var(--line);
+                border-bottom: none;
+                overflow-y: auto;
+                position: fixed;
+                top: var(--header-height);
+                left: 0;
+                transform: translateX(-105%);
+                transition: transform 0.25s ease;
+                z-index: 210;
             }
 
             .sidebar-nav {
-                display: flex;
+                display: block;
                 width: 100%;
-                flex-wrap: wrap;
             }
 
             .sidebar-nav li {
-                border-bottom: none;
-                border-right: 1px solid var(--line);
-                flex: 1;
-                min-width: 150px;
+                border-right: none;
+                border-bottom: 1px solid var(--line);
             }
 
             .sidebar-nav a {
-                flex-direction: column;
-                padding: 0.8rem 1rem;
-                font-size: 0.85rem;
-                justify-content: center;
-                text-align: center;
+                padding: clamp(0.6rem, 1.5vw, 0.85rem);
+                justify-content: flex-start;
+                text-align: left;
             }
 
             .main-content {
                 margin-left: 0;
-                margin-top: 0;
+                margin-top: var(--header-height);
                 padding: 1.5rem 1rem;
+            }
+
+            .sidebar-backdrop {
+                position: fixed;
+                top: var(--header-height);
+                left: 0;
+                right: 0;
+                bottom: 0;
+                display: block;
+                background: rgba(0, 0, 0, 0.38);
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.25s ease;
+                z-index: 205;
+            }
+
+            body.sidebar-open {
+                overflow: hidden;
+            }
+
+            body.sidebar-open .sidebar {
+                transform: translateX(0);
+                box-shadow: 6px 0 22px rgba(0, 0, 0, 0.2);
+            }
+
+            body.sidebar-open .sidebar-backdrop {
+                opacity: 1;
+                pointer-events: auto;
             }
 
             .section {
                 padding: 1.5rem 1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
             }
 
             .section-header {
@@ -531,23 +983,35 @@
             }
 
             .header-user {
-                width: 100%;
-                justify-content: space-between;
+                margin-left: auto;
+                width: auto;
+                justify-content: flex-end;
+            }
+
+            .user-info {
+                overflow-wrap: anywhere;
             }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 560px) {
             header {
-                padding: 1rem;
+                padding-inline: 0.85rem;
             }
 
             .header-logo {
-                font-size: 1.3rem;
+                font-size: 1.2rem;
+            }
+
+            .header-title {
+                display: none;
+            }
+
+            .user-info {
+                display: none;
             }
 
             .sidebar-nav a {
-                padding: 0.6rem 0.8rem;
-                font-size: 0.75rem;
+                font-size: 0.78rem;
             }
 
             .main-content {
@@ -559,7 +1023,7 @@
             }
 
             .section-header h2 {
-                font-size: 1.3rem;
+                font-size: 1.2rem;
             }
 
             .modal {
@@ -576,8 +1040,12 @@
             }
 
             .btn-small {
-                padding: 0.4rem 0.8rem;
-                font-size: 0.7rem;
+                padding: 0.45rem 0.8rem;
+                font-size: 0.74rem;
+            }
+
+            .card-image {
+                aspect-ratio: 4 / 3;
             }
         }
     </style>
@@ -590,13 +1058,16 @@
                 <span class="header-logo">DV</span>
                 <span class="header-title">Admin Dashboard</span>
             </a>
+            <button class="mobile-menu-btn" id="sidebarToggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="adminSidebar">
+                <i class="fas fa-bars"></i>
+            </button>
             <div class="header-user">
                 <div class="user-info">Welcome, <strong id="adminUsername">Admin</strong></div>
                 <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
             </div>
         </header>
 
-        <nav class="sidebar">
+        <nav class="sidebar" id="adminSidebar">
             <ul class="sidebar-nav">
                 <li><a href="#" data-tab="dashboard" class="nav-link active">
                     <i class="fas fa-chart-line"></i> Dashboard
@@ -612,24 +1083,35 @@
                 </a></li>
             </ul>
         </nav>
+        <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
         <main class="main-content">
             <!-- DASHBOARD -->
             <section id="dashboard" class="content-section active">
                 <div class="section">
-                    <h2 style="font-size: 2rem; margin-bottom: 2rem; font-family: var(--font-display);">Dashboard Overview</h2>
-                    <div class="grid-container">
+                    <h2 class="dashboard-title">Dashboard Overview</h2>
+                    <p class="dashboard-subtitle">Track and manage every content area from one clean control center.</p>
+                    <div class="grid-container stats-grid">
                         <div class="stat-card">
-                            <div class="stat-number" id="ongoingProjects">0</div>
-                            <div class="stat-label">Ongoing Projects</div>
+                            <div class="stat-icon"><i class="fas fa-city"></i></div>
+                            <div class="stat-content">
+                                <div class="stat-number" id="ongoingProjects">0</div>
+                                <div class="stat-label">Ongoing Projects</div>
+                            </div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-number" id="completedProjects">0</div>
-                            <div class="stat-label">Completed Projects</div>
+                            <div class="stat-icon"><i class="fas fa-building"></i></div>
+                            <div class="stat-content">
+                                <div class="stat-number" id="completedProjects">0</div>
+                                <div class="stat-label">Completed Projects</div>
+                            </div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-number" id="totalTestimonials">0</div>
-                            <div class="stat-label">Testimonials</div>
+                            <div class="stat-icon"><i class="fas fa-quote-left"></i></div>
+                            <div class="stat-content">
+                                <div class="stat-number" id="totalTestimonials">0</div>
+                                <div class="stat-label">Testimonials</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -639,7 +1121,7 @@
             <section id="ongoing-projects" class="content-section">
                 <div class="section">
                     <div class="section-header">
-                        <h2><i class="fas fa-city" style="margin-right: 1rem; color: var(--gold);"></i>Manage Ongoing Projects</h2>
+                        <h2><span class="heading-icon"><i class="fas fa-city"></i></span>Manage Ongoing Projects</h2>
                         <button class="btn btn-primary" id="addOngoingProjectBtn">
                             <i class="fas fa-plus"></i> Add Ongoing Project
                         </button>
@@ -652,7 +1134,7 @@
             <section id="completed-projects" class="content-section">
                 <div class="section">
                     <div class="section-header">
-                        <h2><i class="fas fa-building" style="margin-right: 1rem; color: var(--gold);"></i>Manage Completed Projects</h2>
+                        <h2><span class="heading-icon"><i class="fas fa-building"></i></span>Manage Completed Projects</h2>
                         <button class="btn btn-primary" id="addCompletedProjectBtn">
                             <i class="fas fa-plus"></i> Add Completed Project
                         </button>
@@ -665,12 +1147,12 @@
             <section id="testimonials" class="content-section">
                 <div class="section">
                     <div class="section-header">
-                        <h2><i class="fas fa-quote-left" style="margin-right: 1rem; color: var(--gold);"></i>Manage Homepage Testimonials</h2>
+                        <h2><span class="heading-icon"><i class="fas fa-quote-left"></i></span>Manage Homepage Testimonials</h2>
                         <button class="btn btn-primary" id="addTestimonialBtn">
                             <i class="fas fa-plus"></i> Add Testimonial
                         </button>
                     </div>
-                    <p style="margin: 0 0 1.25rem; color: var(--muted);">These entries are shown in the home page testimonial section.</p>
+                    <p class="section-intro">These entries are shown in the home page testimonial section.</p>
                     <div id="testimonialsList" class="grid-container"></div>
                 </div>
             </section>
@@ -705,8 +1187,17 @@
                     <input type="text" id="ongoingProjectMetaTwo" placeholder="Surapet" required>
                 </div>
                 <div class="form-group">
-                    <label for="ongoingProjectImage">Image URL / Path</label>
-                    <input type="text" id="ongoingProjectImage" placeholder="static/images/slide1.jpg" required>
+                    <label for="ongoingProjectImage">Project Image</label>
+                    <div class="image-tools">
+                        <div class="image-actions">
+                            <button type="button" class="btn btn-secondary btn-small" id="uploadOngoingImageBtn"><i class="fas fa-upload"></i> Upload Local</button>
+                            <input type="file" id="ongoingImageUpload" accept="image/*" hidden>
+                        </div>
+                        <input type="text" id="ongoingProjectImage" class="image-value" placeholder="Upload local image or choose one default image" readonly>
+                        <p class="image-help">Choose a default project image (internet source):</p>
+                        <div class="default-gallery" id="ongoingDefaultGallery"></div>
+                        <img id="ongoingImagePreview" class="selected-image-preview hidden" alt="Ongoing project preview">
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="ongoingProjectLink">Project Link</label>
@@ -761,8 +1252,17 @@
                     <input type="text" id="completedProjectBuiltUpArea" required>
                 </div>
                 <div class="form-group">
-                    <label for="completedProjectImage">Image URL</label>
-                    <input type="url" id="completedProjectImage">
+                    <label for="completedProjectImage">Project Image</label>
+                    <div class="image-tools">
+                        <div class="image-actions">
+                            <button type="button" class="btn btn-secondary btn-small" id="uploadCompletedImageBtn"><i class="fas fa-upload"></i> Upload Local</button>
+                            <input type="file" id="completedImageUpload" accept="image/*" hidden>
+                        </div>
+                        <input type="text" id="completedProjectImage" class="image-value" placeholder="Upload local image or choose one default image" readonly>
+                        <p class="image-help">Choose a default project image (internet source):</p>
+                        <div class="default-gallery" id="completedDefaultGallery"></div>
+                        <img id="completedImagePreview" class="selected-image-preview hidden" alt="Completed project preview">
+                    </div>
                 </div>
                 <div class="modal-actions">
                     <button type="button" class="btn btn-secondary" onclick="closeModal('completedProjectModal')">Cancel</button>
@@ -816,9 +1316,53 @@
             editingTestimonial: null
         };
 
+        const DEFAULT_ONGOING_IMAGES = [
+            'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1460317442991-0ec209397118?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1516156008625-3a9d6067fab5?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1593696140826-c58b021acf8b?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1479839672679-a46483c0e7c8?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1515263487990-61b07816b324?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1560185007-cde436f6a4d0?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1448630360428-65456885c650?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1464146072230-91cabc968266?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1600566752225-5f0e5fdb7f8e?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80'
+        ];
+
+        const DEFAULT_COMPLETED_IMAGES = [
+            'https://images.unsplash.com/photo-1600607687644-c7f34b5063b8?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1600573472592-401b489a3cdc?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1600121848594-d8644e57abab?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1600210492493-0946911123ea?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1600563438938-a9a27216b0d6?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1605146769289-440113cc3d00?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1493666438817-866a91353ca9?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1600047509358-9dc75507daeb?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1600210491369-e753d80a41f3?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1600607687645-c7171b42498f?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1513584684374-8bab748fbf90?auto=format&fit=crop&w=900&q=80',
+            'https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=900&q=80'
+        ];
+
         document.addEventListener('DOMContentLoaded', () => {
             checkAuth();
             setupEventListeners();
+            setupImagePickers();
+            handleResponsiveSidebar();
             loadAllData();
         });
 
@@ -841,7 +1385,24 @@
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
                     switchTab(link.dataset.tab);
+                    closeSidebarOnMobile();
                 });
+            });
+
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener('click', toggleSidebar);
+            }
+            if (sidebarBackdrop) {
+                sidebarBackdrop.addEventListener('click', closeSidebar);
+            }
+
+            window.addEventListener('resize', handleResponsiveSidebar);
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeSidebar();
+                }
             });
 
             document.getElementById('logoutBtn').addEventListener('click', logout);
@@ -851,6 +1412,24 @@
             document.getElementById('addCompletedProjectBtn').addEventListener('click', () => openCompletedProjectModal());
             document.getElementById('testimonialForm').addEventListener('submit', saveTestimonial);
             document.getElementById('addTestimonialBtn').addEventListener('click', () => openTestimonialModal());
+
+            const uploadOngoingImageBtn = document.getElementById('uploadOngoingImageBtn');
+            const ongoingImageUpload = document.getElementById('ongoingImageUpload');
+            if (uploadOngoingImageBtn && ongoingImageUpload) {
+                uploadOngoingImageBtn.addEventListener('click', () => ongoingImageUpload.click());
+                ongoingImageUpload.addEventListener('change', async (event) => {
+                    await handleLocalImageUpload(event.target, 'ongoingProjectImage', 'ongoingImagePreview');
+                });
+            }
+
+            const uploadCompletedImageBtn = document.getElementById('uploadCompletedImageBtn');
+            const completedImageUpload = document.getElementById('completedImageUpload');
+            if (uploadCompletedImageBtn && completedImageUpload) {
+                uploadCompletedImageBtn.addEventListener('click', () => completedImageUpload.click());
+                completedImageUpload.addEventListener('change', async (event) => {
+                    await handleLocalImageUpload(event.target, 'completedProjectImage', 'completedImagePreview');
+                });
+            }
 
             document.addEventListener('click', (e) => {
                 if (e.target.classList.contains('modal-overlay')) {
@@ -866,6 +1445,208 @@
             document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
         }
 
+        function toggleSidebar() {
+            const isOpen = document.body.classList.toggle('sidebar-open');
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            if (sidebarToggle) {
+                sidebarToggle.setAttribute('aria-expanded', String(isOpen));
+            }
+        }
+
+        function closeSidebar() {
+            document.body.classList.remove('sidebar-open');
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            if (sidebarToggle) {
+                sidebarToggle.setAttribute('aria-expanded', 'false');
+            }
+        }
+
+        function closeSidebarOnMobile() {
+            if (window.innerWidth <= 900) {
+                closeSidebar();
+            }
+        }
+
+        function handleResponsiveSidebar() {
+            if (window.innerWidth > 900) {
+                closeSidebar();
+            }
+        }
+
+        function setupImagePickers() {
+            const usedImages = collectUsedProjectImages();
+            const availableOngoingImages = getAvailableDefaultImages(DEFAULT_ONGOING_IMAGES, usedImages);
+            const availableCompletedImages = getAvailableDefaultImages(DEFAULT_COMPLETED_IMAGES, usedImages);
+
+            renderDefaultImageGallery('ongoingDefaultGallery', 'ongoingProjectImage', 'ongoingImagePreview', availableOngoingImages);
+            renderDefaultImageGallery('completedDefaultGallery', 'completedProjectImage', 'completedImagePreview', availableCompletedImages);
+        }
+
+        function normalizeImageKey(imagePath) {
+            const value = String(imagePath || '').trim();
+            if (!value) {
+                return '';
+            }
+
+            if (value.startsWith('http://') || value.startsWith('https://')) {
+                try {
+                    const parsed = new URL(value);
+                    return `${parsed.protocol}//${parsed.host}${parsed.pathname}`.toLowerCase();
+                } catch {
+                    return value.toLowerCase();
+                }
+            }
+
+            return value
+                .replace(/^\.\//, '')
+                .replace(/\\/g, '/')
+                .replace(/\/+/g, '/')
+                .replace(/\/$/, '')
+                .toLowerCase();
+        }
+
+        function collectUsedProjectImages() {
+            const usedImages = new Set();
+            [state.ongoingProjects, state.completedProjects].forEach((projectList) => {
+                (projectList || []).forEach((project) => {
+                    const imageKey = normalizeImageKey(project.image);
+                    if (imageKey) {
+                        usedImages.add(imageKey);
+                    }
+                });
+            });
+            return usedImages;
+        }
+
+        function getAvailableDefaultImages(imageList, usedImages) {
+            const alreadyAdded = new Set();
+            return (imageList || []).filter((imageUrl) => {
+                const imageKey = normalizeImageKey(imageUrl);
+                if (!imageKey || usedImages.has(imageKey) || alreadyAdded.has(imageKey)) {
+                    return false;
+                }
+                alreadyAdded.add(imageKey);
+                return true;
+            });
+        }
+
+        function renderDefaultImageGallery(galleryId, inputId, previewId, imageList) {
+            const gallery = document.getElementById(galleryId);
+            if (!gallery) {
+                return;
+            }
+
+            if (!Array.isArray(imageList) || imageList.length === 0) {
+                gallery.innerHTML = '<p class="empty-state" style="margin:0;">No unused default images available.</p>';
+                return;
+            }
+
+            gallery.innerHTML = imageList.map((imageUrl, index) => `
+                <button type="button" class="default-image-btn" data-for="${inputId}" data-preview="${previewId}" data-url="${imageUrl}" aria-label="Default image ${index + 1}">
+                    <img src="${imageUrl}" alt="Default project image ${index + 1}" loading="lazy">
+                </button>
+            `).join('');
+
+            gallery.querySelectorAll('.default-image-btn').forEach((button) => {
+                const imageNode = button.querySelector('img');
+                if (imageNode) {
+                    imageNode.addEventListener('error', () => {
+                        button.remove();
+                        if (!gallery.querySelector('.default-image-btn')) {
+                            gallery.innerHTML = '<p class="empty-state" style="margin:0;">No working default images available.</p>';
+                        }
+                    });
+                }
+
+                button.addEventListener('click', () => {
+                    setProjectImage(inputId, previewId, button.dataset.url || '');
+                    markActiveDefaultImage(galleryId, button.dataset.url || '');
+                });
+            });
+        }
+
+        function setProjectImage(inputId, previewId, imagePath) {
+            const imageInput = document.getElementById(inputId);
+            if (imageInput) {
+                imageInput.value = imagePath;
+            }
+            syncImagePreview(previewId, imagePath);
+        }
+
+        function syncImagePreview(previewId, imagePath) {
+            const imagePreview = document.getElementById(previewId);
+            if (!imagePreview) {
+                return;
+            }
+
+            if (!imagePath) {
+                imagePreview.classList.add('hidden');
+                imagePreview.removeAttribute('src');
+                return;
+            }
+
+            imagePreview.onerror = () => {
+                imagePreview.classList.add('hidden');
+                imagePreview.removeAttribute('src');
+            };
+            imagePreview.src = imagePath;
+            imagePreview.classList.remove('hidden');
+        }
+
+        function markActiveDefaultImage(galleryId, selectedUrl) {
+            const gallery = document.getElementById(galleryId);
+            if (!gallery) {
+                return;
+            }
+
+            gallery.querySelectorAll('.default-image-btn').forEach((button) => {
+                button.classList.toggle('active', (button.dataset.url || '') === selectedUrl);
+            });
+        }
+
+        function syncActiveImageFromInput(galleryId, inputId, previewId) {
+            const imageInput = document.getElementById(inputId);
+            const selectedPath = imageInput ? imageInput.value.trim() : '';
+            markActiveDefaultImage(galleryId, selectedPath);
+            syncImagePreview(previewId, selectedPath);
+        }
+
+        async function uploadImageFile(file) {
+            const formData = new FormData();
+            formData.append('image', file);
+
+            const response = await fetch('/api/admin/upload-image', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json().catch(() => ({}));
+            if (!response.ok || !result.ok) {
+                throw new Error(result.error || 'Failed to upload image.');
+            }
+
+            return result.path;
+        }
+
+        async function handleLocalImageUpload(fileInput, targetInputId, previewId) {
+            const file = fileInput && fileInput.files ? fileInput.files[0] : null;
+            if (!file) {
+                return;
+            }
+
+            try {
+                const uploadedPath = await uploadImageFile(file);
+                const galleryId = targetInputId === 'ongoingProjectImage' ? 'ongoingDefaultGallery' : 'completedDefaultGallery';
+                setProjectImage(targetInputId, previewId, uploadedPath);
+                markActiveDefaultImage(galleryId, uploadedPath);
+                showAlert('Image uploaded successfully.', 'success');
+            } catch (error) {
+                showAlert(error.message || 'Image upload failed.', 'danger');
+            } finally {
+                fileInput.value = '';
+            }
+        }
+
         function openModal(modalId) {
             document.getElementById(modalId).classList.add('show');
         }
@@ -876,6 +1657,7 @@
 
         function openOngoingProjectModal(projectId = null) {
             document.getElementById('ongoingProjectForm').reset();
+            document.getElementById('ongoingImageUpload').value = '';
             if (projectId) {
                 const project = state.ongoingProjects.find(item => item.id === projectId);
                 if (project) {
@@ -895,11 +1677,13 @@
                 document.getElementById('ongoingProjectModalTitle').textContent = 'Add Ongoing Project';
                 document.getElementById('ongoingProjectId').value = '';
             }
+            syncActiveImageFromInput('ongoingDefaultGallery', 'ongoingProjectImage', 'ongoingImagePreview');
             openModal('ongoingProjectModal');
         }
 
         function openCompletedProjectModal(projectId = null) {
             document.getElementById('completedProjectForm').reset();
+            document.getElementById('completedImageUpload').value = '';
             if (projectId) {
                 const project = state.completedProjects.find(item => item.id === projectId);
                 if (project) {
@@ -920,6 +1704,7 @@
                 document.getElementById('completedProjectModalTitle').textContent = 'Add Completed Project';
                 document.getElementById('completedProjectId').value = '';
             }
+            syncActiveImageFromInput('completedDefaultGallery', 'completedProjectImage', 'completedImagePreview');
             openModal('completedProjectModal');
         }
 
@@ -954,6 +1739,7 @@
                 state.ongoingProjects = ongoingProjects;
                 state.completedProjects = completedProjects;
                 state.testimonials = testimonials;
+                setupImagePickers();
                 updateDashboard();
                 renderOngoingProjects();
                 renderCompletedProjects();
@@ -982,6 +1768,11 @@
                 link: document.getElementById('ongoingProjectLink').value.trim(),
                 date_created: new Date().toISOString().split('T')[0]
             };
+
+            if (!projectData.image) {
+                showAlert('Please upload an image or select one default image.', 'danger');
+                return;
+            }
 
             try {
                 const url = projectId ? `/api/ongoing-projects/${projectId}` : '/api/ongoing-projects';
@@ -1020,19 +1811,19 @@
         function renderOngoingProjects() {
             const container = document.getElementById('ongoingProjectsList');
             if (state.ongoingProjects.length === 0) {
-                container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--muted);">No ongoing projects yet.</p>';
+                container.innerHTML = '<p class="empty-state">No ongoing projects yet.</p>';
                 return;
             }
 
             container.innerHTML = state.ongoingProjects.map((project) => `
                 <div class="card">
-                    ${project.image ? `<img src="${project.image}" alt="${project.title}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 6px; margin-bottom: 1rem;">` : ''}
-                    <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
-                        <span style="background: var(--gold-soft); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem; color: var(--coal); font-weight: 600;">${project.tag || 'Ongoing'}</span>
+                    ${project.image ? `<img src="${project.image}" alt="${project.title}" class="card-image">` : ''}
+                    <div class="item-tags">
+                        <span class="pill">${project.tag || 'Ongoing'}</span>
                     </div>
                     <div class="card-title">${project.title || 'Ongoing Project'}</div>
                     <div class="card-text">${(project.description || '').substring(0, 120)}${project.description && project.description.length > 120 ? '...' : ''}</div>
-                    <div style="font-size: 0.85rem; color: var(--muted); margin-bottom: 1rem; padding-top: 1rem; border-top: 1px solid var(--line);">
+                    <div class="meta-list">
                         <div><strong>Meta One:</strong> ${project.meta_one || project.metaOne || '-'}</div>
                         <div><strong>Meta Two:</strong> ${project.meta_two || project.metaTwo || '-'}</div>
                         <div><strong>Link:</strong> ${project.link || '-'}</div>
@@ -1059,6 +1850,11 @@
                 image: document.getElementById('completedProjectImage').value.trim(),
                 date_created: new Date().toISOString().split('T')[0]
             };
+
+            if (!projectData.image) {
+                showAlert('Please upload an image or select one default image.', 'danger');
+                return;
+            }
 
             try {
                 const url = projectId ? `/api/completed-projects/${projectId}` : '/api/completed-projects';
@@ -1097,20 +1893,20 @@
         function renderCompletedProjects() {
             const container = document.getElementById('completedProjectsList');
             if (state.completedProjects.length === 0) {
-                container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--muted);">No completed projects yet.</p>';
+                container.innerHTML = '<p class="empty-state">No completed projects yet.</p>';
                 return;
             }
 
             container.innerHTML = state.completedProjects.map((project, index) => `
                 <div class="card">
-                    ${project.image ? `<img src="${project.image}" alt="${project.title}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 6px; margin-bottom: 1rem;">` : ''}
+                    ${project.image ? `<img src="${project.image}" alt="${project.title}" class="card-image">` : ''}
                     <div class="card-title">${project.title || 'Completed Project'}</div>
                     <div class="card-text">${(project.description || '').substring(0, 100)}${project.description && project.description.length > 100 ? '...' : ''}</div>
-                    <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
-                        <span style="background: var(--gold-soft); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem; color: var(--coal); font-weight: 600;">${project.project_type || project.projectType || 'Completed Residence'}</span>
-                        <span style="background: rgba(100, 100, 100, 0.2); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem; color: #555; font-weight: 600;">Project ${String(index + 1).padStart(2, '0')}</span>
+                    <div class="item-tags">
+                        <span class="pill">${project.project_type || project.projectType || 'Completed Residence'}</span>
+                        <span class="pill pill-muted">Project ${String(index + 1).padStart(2, '0')}</span>
                     </div>
-                    <div style="font-size: 0.85rem; color: var(--muted); margin-bottom: 1rem; padding-top: 1rem; border-top: 1px solid var(--line);">
+                    <div class="meta-list">
                         <div><strong>Location:</strong> ${project.location || 'Not specified'}</div>
                         <div><strong>Completed In:</strong> ${project.completed_in || project.completedIn || 'Not specified'}</div>
                         <div><strong>Units:</strong> ${project.units || 'Not specified'}</div>
@@ -1174,28 +1970,28 @@
         function renderTestimonials() {
             const container = document.getElementById('testimonialsList');
             if (state.testimonials.length === 0) {
-                container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--muted);">No testimonials yet.</p>';
+                container.innerHTML = '<p class="empty-state">No testimonials yet.</p>';
                 return;
             }
 
             container.innerHTML = state.testimonials.map((testimonial) => `
                 <div class="card">
-                    <div class="stars" style="margin-bottom: 1rem;">
+                    <div class="stars">
                         ${'⭐'.repeat(testimonial.rating || 5)}
                     </div>
-                    <div class="card-text" style="font-style: italic; margin-bottom: 1rem;">
+                    <div class="card-text quote-text">
                         "${(testimonial.quote || '').substring(0, 150)}${testimonial.quote && testimonial.quote.length > 150 ? '...' : ''}"
                     </div>
-                    <div style="display: flex; align-items: center; gap: 1rem;">
-                        <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--gold-soft); display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--coal);">
+                    <div class="testimonial-head">
+                        <div class="avatar-badge">
                             ${(testimonial.avatar || 'D').toUpperCase()}
                         </div>
                         <div>
-                            <div style="font-weight: 600; color: var(--coal);">${testimonial.author || 'Customer'}</div>
-                            <div style="font-size: 0.85rem; color: var(--muted);">${testimonial.date_created || ''}</div>
+                            <div class="author-name">${testimonial.author || 'Customer'}</div>
+                            <div class="author-date">${testimonial.date_created || ''}</div>
                         </div>
                     </div>
-                    <div class="card-actions" style="margin-top: 1rem;">
+                    <div class="card-actions">
                         <button class="btn btn-small btn-secondary" onclick="openTestimonialModal(${testimonial.id})"><i class="fas fa-edit"></i> Edit</button>
                         <button class="btn btn-small btn-danger" onclick="deleteTestimonial(${testimonial.id})"><i class="fas fa-trash"></i> Delete</button>
                     </div>

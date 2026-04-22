@@ -35,6 +35,10 @@
             width: 100%;
         }
 
+        html {
+            font-size: clamp(14px, 0.35vw + 13px, 16px);
+        }
+
         body {
             font-family: var(--font-body);
             background: linear-gradient(135deg, var(--soft) 0%, var(--white) 100%);
@@ -42,15 +46,14 @@
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            padding: 1rem;
+            padding: clamp(0.75rem, 2.5vw, 1.5rem);
             color: var(--text);
         }
 
         .login-container {
-            width: 100%;
-            max-width: 420px;
+            width: min(100%, clamp(320px, 92vw, 460px));
             background: var(--white);
-            border-radius: 12px;
+            border-radius: clamp(10px, 1vw, 14px);
             box-shadow: 0 18px 60px rgba(0, 0, 0, 0.14);
             overflow: hidden;
             animation: slideUp 0.6s ease-out;
@@ -69,13 +72,13 @@
 
         .login-header {
             background: linear-gradient(135deg, var(--coal) 0%, var(--ink) 100%);
-            padding: 3rem 2rem 2rem;
+            padding: clamp(1.8rem, 5vw, 3rem) clamp(1.1rem, 4vw, 2rem) clamp(1.25rem, 3.5vw, 2rem);
             text-align: center;
             border-bottom: 3px solid var(--gold);
         }
 
         .login-logo {
-            font-size: 3rem;
+            font-size: clamp(2rem, 5.5vw, 3rem);
             font-family: var(--font-head);
             color: var(--gold);
             font-weight: bold;
@@ -83,7 +86,7 @@
         }
 
         .login-title {
-            font-size: 1.8rem;
+            font-size: clamp(1.35rem, 2.3vw, 1.8rem);
             font-family: var(--font-display);
             color: var(--white);
             font-weight: 600;
@@ -91,22 +94,22 @@
         }
 
         .login-subtitle {
-            font-size: 0.95rem;
+            font-size: clamp(0.85rem, 0.7vw + 0.65rem, 0.95rem);
             color: rgba(255, 255, 255, 0.8);
             letter-spacing: 0.5px;
         }
 
         .login-form {
-            padding: 2.5rem 2rem;
+            padding: clamp(1.25rem, 4vw, 2.5rem) clamp(1rem, 4vw, 2rem);
         }
 
         .form-group {
-            margin-bottom: 1.8rem;
+            margin-bottom: clamp(1rem, 2.5vw, 1.8rem);
         }
 
         .form-group label {
             display: block;
-            font-size: 0.95rem;
+            font-size: clamp(0.86rem, 0.55vw + 0.72rem, 0.95rem);
             font-weight: 600;
             color: var(--text);
             margin-bottom: 0.6rem;
@@ -116,14 +119,15 @@
 
         .form-group input {
             width: 100%;
-            padding: 0.9rem 1.1rem;
+            padding: clamp(0.78rem, 1.7vw, 0.95rem) clamp(0.9rem, 2.2vw, 1.1rem);
             border: 2px solid var(--line);
             border-radius: 6px;
-            font-size: 1rem;
+            font-size: clamp(0.95rem, 0.45vw + 0.82rem, 1rem);
             font-family: var(--font-body);
             color: var(--text);
             background: var(--soft);
             transition: all 0.3s ease;
+            min-height: 44px;
         }
 
         .form-group input:focus {
@@ -139,13 +143,13 @@
 
         .error-message {
             display: none;
-            padding: 1rem;
-            margin-bottom: 1.5rem;
+            padding: clamp(0.8rem, 2vw, 1rem);
+            margin-bottom: clamp(1rem, 2.5vw, 1.5rem);
             background: rgba(200, 16, 46, 0.1);
             border-left: 4px solid var(--red);
             border-radius: 4px;
             color: var(--red);
-            font-size: 0.95rem;
+            font-size: clamp(0.87rem, 0.5vw + 0.75rem, 0.95rem);
             animation: slideDown 0.3s ease;
         }
 
@@ -166,12 +170,12 @@
 
         .submit-btn {
             width: 100%;
-            padding: 0.95rem 1.5rem;
+            padding: clamp(0.8rem, 1.8vw, 0.95rem) clamp(1rem, 3vw, 1.5rem);
             background: linear-gradient(135deg, var(--coal) 0%, var(--ink) 100%);
             color: var(--white);
             border: none;
             border-radius: 6px;
-            font-size: 1rem;
+            font-size: clamp(0.95rem, 0.55vw + 0.82rem, 1rem);
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -179,6 +183,7 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            min-height: 44px;
         }
 
         .submit-btn:hover {
@@ -213,14 +218,14 @@
         }
 
         .login-footer {
-            padding: 1.5rem 2rem;
+            padding: clamp(1rem, 2.5vw, 1.5rem) clamp(1rem, 4vw, 2rem);
             text-align: center;
             border-top: 1px solid var(--line);
             background: var(--soft);
         }
 
         .back-link {
-            display: inline-block;
+            font-size: clamp(0.86rem, 0.5vw + 0.74rem, 0.95rem);
         }
 
         .back-link a {
@@ -229,36 +234,40 @@
             text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+        @media (max-width: 480px) {
             transition: all 0.3s ease;
-            border-bottom: 2px solid transparent;
-        }
+                width: 100%;
+                border-radius: 10px;
 
         .back-link a:hover {
             color: var(--gold);
-            border-bottom-color: var(--gold);
+                padding: 1.75rem 1rem 1.2rem;
         }
 
         @media (max-width: 480px) {
-            .login-container {
+                font-size: 2.2rem;
                 border-radius: 0;
                 box-shadow: none;
             }
-
+                font-size: 1.28rem;
             .login-header {
                 padding: 2rem 1.5rem 1.5rem;
             }
-
+                padding: 1.3rem 1rem;
             .login-logo {
                 font-size: 2.5rem;
             }
-
+                margin-bottom: 1rem;
             .login-title {
                 font-size: 1.4rem;
             }
-
+                padding: 0.8rem 0.95rem;
             .login-form {
                 padding: 2rem 1.5rem;
+
+            .submit-btn {
+                letter-spacing: 0.6px;
+            }
             }
 
             .form-group {
