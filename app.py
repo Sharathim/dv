@@ -26,6 +26,11 @@ def home():
     return render_template("index.html")
 
 
+@app.route("/favicon.ico")
+def favicon():
+    return send_from_directory(BASE_DIR / "static" / "assets" / "images", "dv-logo.png")
+
+
 @app.route("/<path:page>")
 def render_page(page: str):
     # Keep old .html-style URLs working without changing existing links.

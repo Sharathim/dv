@@ -1,4 +1,36 @@
 (function () {
+  const BRAND_LOGO_PATH = "static/assets/images/dv-logo.png";
+
+  const applyGlobalBranding = () => {
+    const existingIcon = document.querySelector("link[rel='icon']");
+    if (existingIcon) {
+      existingIcon.setAttribute("href", BRAND_LOGO_PATH);
+      existingIcon.setAttribute("type", "image/png");
+    } else {
+      const icon = document.createElement("link");
+      icon.setAttribute("rel", "icon");
+      icon.setAttribute("type", "image/png");
+      icon.setAttribute("href", BRAND_LOGO_PATH);
+      document.head.appendChild(icon);
+    }
+
+    document.querySelectorAll(".brand-mark").forEach((brandMark) => {
+      if (brandMark.querySelector("img.brand-logo-image")) {
+        return;
+      }
+
+      brandMark.textContent = "";
+      const logoImage = document.createElement("img");
+      logoImage.className = "brand-logo-image";
+      logoImage.src = BRAND_LOGO_PATH;
+      logoImage.alt = "DV Dream Homes";
+      logoImage.loading = "lazy";
+      brandMark.appendChild(logoImage);
+    });
+  };
+
+  applyGlobalBranding();
+
   const TESTIMONIALS_FALLBACK = [
     {
       id: 1,
