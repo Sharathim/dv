@@ -19,7 +19,7 @@ DATA_DIR = BASE_DIR / "data"
 UPLOADS_DIR = BASE_DIR / "static" / "assets" / "images" / "admin-uploads"
 ALLOWED_IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".avif"}
 ALLOWED_DOCUMENT_EXTENSIONS = {".pdf"}
-CONTACT_TO_EMAIL = "rathisha273@gmail.com"
+CONTACT_TO_EMAIL = "sales@dvdreamhomes.info"
 
 LEGACY_ONGOING_DETAIL_ROUTES = {
     "dv-emerald.html": "dv-emerald",
