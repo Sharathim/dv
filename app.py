@@ -18,6 +18,7 @@ BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR / "data"
 UPLOADS_DIR = BASE_DIR / "static" / "assets" / "images" / "admin-uploads"
 ALLOWED_IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".avif"}
+ALLOWED_DOCUMENT_EXTENSIONS = {".pdf"}
 CONTACT_TO_EMAIL = "rathisha273@gmail.com"
 
 LEGACY_ONGOING_DETAIL_ROUTES = {
@@ -253,6 +254,25 @@ def _save_uploaded_image(file_storage) -> str:
 
     return f"static/assets/images/admin-uploads/{unique_name}"
 
+def _is_allowed_document(filename: str) -> bool:
+    extension = Path(filename).suffix.lower()
+    return extension in ALLOWED_DOCUMENT_EXTENSIONS
+
+def _save_uploaded_document(file_storage) -> str:
+    original_name = secure_filename(file_storage.filename or "")
+    if not original_name or not _is_allowed_document(original_name):
+        raise ValueError("Only PDF files are allowed.")
+
+    extension = Path(original_name).suffix.lower()
+    base_name = Path(original_name).stem[:40] or "document"
+    unique_name = f"{base_name}-{uuid4().hex[:10]}{extension}"
+
+    UPLOADS_DIR.mkdir(parents=True, exist_ok=True)
+    target_path = UPLOADS_DIR / unique_name
+    file_storage.save(target_path)
+
+    return f"static/assets/images/admin-uploads/{unique_name}"
+
 
 @app.route("/api/projects")
 def api_projects():
@@ -373,6 +393,23 @@ def admin_upload_image():
         return jsonify({"ok": False, "error": str(exc)}), 400
     except Exception:
         return jsonify({"ok": False, "error": "Failed to upload image."}), 500
+
+    return jsonify({"ok": True, "path": relative_path}), 201
+
+@app.route("/api/admin/upload-document", methods=["POST"])
+def admin_upload_document():
+    _require_admin(lambda: None)()
+
+    uploaded_doc = request.files.get("document")
+    if uploaded_doc is None or not (uploaded_doc.filename or "").strip():
+        return jsonify({"ok": False, "error": "Please choose a document file."}), 400
+
+    try:
+        relative_path = _save_uploaded_document(uploaded_doc)
+    except ValueError as exc:
+        return jsonify({"ok": False, "error": str(exc)}), 400
+    except Exception:
+        return jsonify({"ok": False, "error": "Failed to upload document."}), 500
 
     return jsonify({"ok": True, "path": relative_path}), 201
 
@@ -518,8 +555,7 @@ def ongoing_projects_endpoint():
             "tag": data.get("tag", "Ongoing"),
             "title": data.get("title", ""),
             "description": data.get("description", ""),
-            "meta_one": data.get("meta_one", ""),
-            "meta_two": data.get("meta_two", ""),
+            "metaline": data.get("metaline", ""),
             "image": data.get("image", ""),
             "slug": _slugify(slug),
             "detail": data.get("detail", {}) if isinstance(data.get("detail", {}), dict) else {},
@@ -552,8 +588,7 @@ def ongoing_project_detail(project_id):
             "tag": data.get("tag", project.get("tag")),
             "title": data.get("title", project.get("title")),
             "description": data.get("description", project.get("description")),
-            "meta_one": data.get("meta_one", project.get("meta_one")),
-            "meta_two": data.get("meta_two", project.get("meta_two")),
+            "metaline": data.get("metaline", project.get("metaline")),
             "image": data.get("image", project.get("image")),
             "slug": _slugify(slug_value),
             "detail": data.get("detail", project.get("detail", {})) if isinstance(data.get("detail", project.get("detail", {})), dict) else project.get("detail", {})

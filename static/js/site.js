@@ -472,27 +472,12 @@
     const nearbyPlaces = toArray(detail.nearby_places).slice(0, 8);
     const centralTags = toArray(detail.central_tags).slice(0, 8);
     const centralList = toArray(detail.central_list).slice(0, 10);
-    const availabilityColumns = toArray(detail.availability_columns).slice(0, 4);
-    const availabilityRows = Array.isArray(detail.availability_rows)
-      ? detail.availability_rows
-        .map((row) => {
-          const label = String(row && row.label ? row.label : "").trim();
-          const values = Array.isArray(row && row.values) ? row.values.map((entry) => String(entry || "").trim()) : [];
-          if (!label || !values.length) {
-            return null;
-          }
-          return { label, values };
-        })
-        .filter(Boolean)
-      : [];
 
     return {
-      heroImage: detail.hero_image || project.image || "",
       coverImage: detail.cover_image || project.image || "",
-      location: detail.location || project.meta_two || "Not specified",
+      location: detail.location || "Not specified",
       summaryTitle: detail.summary_title || "Great location to match the great value",
-      summaryParaOne: detail.summary_para_one || project.description || "",
-      summaryParaTwo: detail.summary_para_two || "",
+      summary: detail.summary || project.description || "",
       detailsIntro: detail.details_intro || "",
       stats,
       floorPlanImage: detail.floor_plan_image || "",
@@ -506,50 +491,11 @@
       centralTags,
       centralListTitle: detail.central_list_title || "Nearby Highlights",
       centralList,
-      centralImage: detail.central_image || project.image || "",
-      availabilityColumns,
-      availabilityRows
+      centralImage: detail.central_image || project.image || ""
     };
   };
 
-  const buildAvailabilityTable = (detail) => {
-    if (!detail.availabilityColumns.length || !detail.availabilityRows.length) {
-      return "";
-    }
 
-    const maxColumns = detail.availabilityColumns.length;
-    const headCells = detail.availabilityColumns.map((column) => `<th>${toSafeText(column)}</th>`).join("");
-    const rowHtml = detail.availabilityRows.map((row) => {
-      const values = row.values.slice(0, maxColumns);
-      while (values.length < maxColumns) {
-        values.push("-");
-      }
-
-      return `
-        <tr>
-          <td>${toSafeText(row.label)}</td>
-          ${values.map((value) => `<td>${toSafeText(value)}</td>`).join("")}
-        </tr>`;
-    }).join("");
-
-    return `
-      <section class="section-band"><p>Availability Status</p></section>
-      <section class="section-tight">
-        <div class="container">
-          <table class="availability-table">
-            <thead>
-              <tr>
-                <th></th>
-                ${headCells}
-              </tr>
-            </thead>
-            <tbody>
-              ${rowHtml}
-            </tbody>
-          </table>
-        </div>
-      </section>`;
-  };
 
   const renderOngoingProjectDetailPage = (project) => {
     const main = document.querySelector("main");
@@ -559,12 +505,10 @@
 
     const title = toSafeText(project.title || "Project");
     const detail = getOngoingProjectDetail(project);
-    const heroImage = toSafeText(detail.heroImage);
     const coverImage = toSafeText(detail.coverImage);
     const location = toSafeText(detail.location);
     const summaryTitle = toSafeText(detail.summaryTitle);
-    const summaryParaOne = toSafeText(detail.summaryParaOne);
-    const summaryParaTwo = toSafeText(detail.summaryParaTwo);
+    const summary = toSafeText(detail.summary);
     const detailsIntro = toSafeText(detail.detailsIntro);
     const highlightsIntro = toSafeText(detail.highlightsIntro);
 
@@ -594,7 +538,7 @@
 
     const pageHero = document.querySelector(".page-hero");
     if (pageHero) {
-      pageHero.style.backgroundImage = heroImage ? `url('${heroImage}')` : "none";
+      pageHero.style.backgroundImage = "url('./static/images/ongoing2.jpg')";
     }
     const pageHeroTitle = document.querySelector(".page-hero-content h1");
     if (pageHeroTitle) {
@@ -620,8 +564,7 @@
             <h3 class="project-headline">${title}</h3>
             <h4>${location}</h4>
             <p><strong>${summaryTitle}</strong></p>
-            <p>${summaryParaOne}</p>
-            ${summaryParaTwo ? `<p>${summaryParaTwo}</p>` : ""}
+            <p style="white-space: pre-wrap;">${summary}</p>
           </div>
         </div>
       </section>
@@ -635,23 +578,21 @@
         </div>
       </section>
 
-      ${floorPlanImage ? `
-        <section class="section">
-          <div class="container section-title">
-            <p class="kicker">Floor Plan</p>
-            <div class="floor-image">
-              <img src="${floorPlanImage}" alt="${title} floor plan">
-            </div>
+      <section class="section">
+        <div class="container section-title">
+          <p class="kicker">Floor Plan</p>
+          <div class="floor-image">
+            ${floorPlanImage ? `<img src="${floorPlanImage}" alt="${title} floor plan">` : `<div style="padding: 40px; text-align: center; border: 2px dashed #ccc; color: #666; font-weight: bold; border-radius: 8px;">Coming Soon</div>`}
           </div>
-        </section>` : ""}
+        </div>
+      </section>
 
-      ${catalogueUrl && catalogueUrl !== "#" ? `
-        <section class="section-band"><p>Catalogue</p></section>
-        <section class="section-tight">
-          <div class="container text-center">
-            <a href="${catalogueUrl}" class="btn btn-red" target="_blank" rel="noopener noreferrer"><i class="fas fa-file-arrow-down"></i> Download Catalogue (PDF)</a>
-          </div>
-        </section>` : ""}
+      <section class="section-band"><p>Catalogue</p></section>
+      <section class="section-tight">
+        <div class="container text-center">
+          ${catalogueUrl && catalogueUrl !== "#" ? `<a href="${catalogueUrl}" class="btn btn-red" target="_blank" rel="noopener noreferrer"><i class="fas fa-file-arrow-down"></i> Download Catalogue (PDF)</a>` : `<div style="padding: 20px; color: #666; font-style: italic;">Will be uploaded soon</div>`}
+        </div>
+      </section>
 
       ${(detail.highlights.length || highlightsIntro) ? `
         <section class="section-band"><p>Key Project Highlights</p></section>
@@ -688,7 +629,6 @@
           </div>
         </section>` : ""}
 
-      ${buildAvailabilityTable(detail)}
     `;
   };
 
@@ -696,8 +636,7 @@
     const title = toSafeText(item.title || "Project");
     const tag = toSafeText(item.tag || "Ongoing");
     const description = toSafeText(item.description || "");
-    const metaOne = toSafeText(item.meta_one || "");
-    const metaTwo = toSafeText(item.meta_two || "");
+    const metaLine = toSafeText(item.metaline || item.meta_line || "");
     const image = toSafeText(item.image || "");
     const link = `ongoing-projects.html?project=${encodeURIComponent(getOngoingProjectSlug(item))}`;
 
@@ -709,8 +648,7 @@
           <h3>${title}</h3>
           <p>${description}</p>
           <div class="project-meta">
-            <span>${metaOne}</span>
-            <span>${metaTwo}</span>
+            ${metaLine ? `<span>${metaLine}</span>` : ""}
           </div>
           <div class="project-card-footer">
             <a href="${link}" class="btn btn-primary"><i class="fas fa-arrow-right"></i> View Project</a>
@@ -968,6 +906,136 @@
     storySteps.forEach((step) => storyObserver.observe(step));
   }
 
+  const initMobileStorySlider = () => {
+    const storySuite = document.querySelector(".story-suite");
+    if (!storySuite || !storySteps.length) return;
+
+    const wrap = document.createElement("div");
+    wrap.className = "story-mobile-wrap";
+    wrap.id = "storyMobileWrap";
+
+    const sticky = document.createElement("div");
+    sticky.className = "story-mobile-sticky";
+
+    const imgTrack = document.createElement("div");
+    imgTrack.className = "mobile-images-track";
+    imgTrack.id = "mobileImagesTrack";
+
+    const txtTrack = document.createElement("div");
+    txtTrack.className = "mobile-texts-track";
+    txtTrack.id = "mobileTextsTrack";
+
+    const n = storySteps.length;
+    imgTrack.style.width = `${n * 100}vw`;
+    txtTrack.style.width = `${n * 100}vw`;
+
+    const revSteps = [...storySteps].reverse();
+    revSteps.forEach(step => {
+      const slide = document.createElement("div");
+      slide.className = "mobile-slide-img";
+      const img = document.createElement("img");
+      img.src = step.dataset.image;
+      img.alt = step.dataset.title || "Story image";
+      slide.appendChild(img);
+      imgTrack.appendChild(slide);
+    });
+
+    storySteps.forEach((step, index) => {
+      const slide = document.createElement("div");
+      slide.className = "mobile-slide-txt";
+      slide.innerHTML = step.innerHTML;
+
+      const stepIndex = document.createElement("div");
+      stepIndex.className = "mobile-step-index";
+      stepIndex.textContent = `0${index + 1} / 0${n}`;
+      slide.prepend(stepIndex);
+
+      txtTrack.appendChild(slide);
+    });
+
+    sticky.appendChild(imgTrack);
+    sticky.appendChild(txtTrack);
+    wrap.appendChild(sticky);
+
+    const layout = storySuite.querySelector(".story-layout");
+    if (layout) {
+      layout.parentNode.insertBefore(wrap, layout.nextSibling);
+    } else {
+      storySuite.appendChild(wrap);
+    }
+
+    // Set container height dynamically based on number of slides to ensure sufficient scrolling length.
+    wrap.style.height = `${n * 100}vh`;
+
+    let isMobile = window.innerWidth <= 980;
+
+    let snapTimeout = null;
+    let isSnapping = false;
+
+    const onScroll = () => {
+      if (!isMobile) return;
+
+      const navH = 74;
+      const rect = wrap.getBoundingClientRect();
+      const stickyH = window.innerHeight - navH;
+      const maxScroll = Math.max(1, rect.height - stickyH);
+      const scrollTop = navH - rect.top;
+
+      let progress = 0;
+      if (scrollTop > 0) {
+        progress = Math.min(1, Math.max(0, scrollTop / maxScroll));
+      }
+
+      const maxTrans = ((n - 1) / n) * 100;
+      txtTrack.style.transform = `translate3d(${-progress * maxTrans}%, 0, 0)`;
+      imgTrack.style.transform = `translate3d(${-maxTrans + (progress * maxTrans)}%, 0, 0)`;
+
+      if (!isSnapping && scrollTop > 5 && scrollTop < maxScroll - 5) {
+        clearTimeout(snapTimeout);
+        snapTimeout = setTimeout(() => {
+          if (!isMobile) return;
+
+          const currentScrollTop = navH - wrap.getBoundingClientRect().top;
+          if (currentScrollTop > 5 && currentScrollTop < maxScroll - 5) {
+            const snapProgress = currentScrollTop / maxScroll;
+            const targetIndex = Math.round(snapProgress * (n - 1));
+            const targetScrollTop = targetIndex * (maxScroll / (n - 1));
+
+            if (Math.abs(currentScrollTop - targetScrollTop) > 10) {
+              isSnapping = true;
+              const absoluteTarget = window.scrollY + wrap.getBoundingClientRect().top - navH + targetScrollTop;
+
+              window.scrollTo({
+                top: absoluteTarget,
+                behavior: "smooth"
+              });
+
+              setTimeout(() => { isSnapping = false; }, 600);
+            }
+          }
+        }, 150);
+      }
+    };
+
+    window.addEventListener("scroll", () => {
+      requestAnimationFrame(onScroll);
+    }, { passive: true });
+
+    window.addEventListener("resize", () => {
+      isMobile = window.innerWidth <= 980;
+      if (!isMobile) {
+        txtTrack.style.transform = "";
+        imgTrack.style.transform = "";
+      } else {
+        requestAnimationFrame(onScroll);
+      }
+    });
+
+    requestAnimationFrame(onScroll);
+  };
+
+  initMobileStorySlider();
+
   const statObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (!entry.isIntersecting) return;
@@ -991,6 +1059,32 @@
   }, { threshold: 0.35 });
 
   document.querySelectorAll(".stat-panel, .stats-grid").forEach((panel) => statObserver.observe(panel));
+
+  const numberedBlocks = document.querySelectorAll(".numbered-block");
+  if (numberedBlocks.length) {
+    let isMobileView = window.innerWidth <= 980;
+
+    window.addEventListener("resize", () => {
+      isMobileView = window.innerWidth <= 980;
+      if (!isMobileView) {
+        numberedBlocks.forEach(b => b.classList.remove("is-hovered"));
+      }
+    });
+
+    const blockObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!isMobileView) return;
+
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-hovered");
+        } else {
+          entry.target.classList.remove("is-hovered");
+        }
+      });
+    }, { rootMargin: "-35% 0px -35% 0px", threshold: 0 });
+
+    numberedBlocks.forEach((block) => blockObserver.observe(block));
+  }
 
   initTestimonialsSection();
   initCompletedProjectsSection();

@@ -1203,7 +1203,10 @@
                 <input type="hidden" id="ongoingProjectId">
                 <div class="form-group">
                     <label for="ongoingProjectTag">Tag</label>
-                    <input type="text" id="ongoingProjectTag" placeholder="Ongoing" required>
+                    <select id="ongoingProjectTag" required>
+                        <option value="Ongoing">Ongoing</option>
+                        <option value="Upcoming">Upcoming</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="ongoingProjectTitle">Project Title</label>
@@ -1214,12 +1217,14 @@
                     <textarea id="ongoingProjectDescription" required></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="ongoingProjectMetaOne">Meta Line One</label>
-                    <input type="text" id="ongoingProjectMetaOne" placeholder="Premium homes" required>
-                </div>
-                <div class="form-group">
-                    <label for="ongoingProjectMetaTwo">Meta Line Two</label>
-                    <input type="text" id="ongoingProjectMetaTwo" placeholder="Surapet" required>
+                    <label for="ongoingProjectMetaLine">Meta Line (Select multiple or enter custom, comma separated)</label>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom: 8px;">
+                        <label style="text-transform: none; font-weight: normal;"><input type="checkbox" class="ongoing-metaline-preset" value="Premium homes"> Premium homes</label>
+                        <label style="text-transform: none; font-weight: normal;"><input type="checkbox" class="ongoing-metaline-preset" value="Quality build"> Quality build</label>
+                        <label style="text-transform: none; font-weight: normal;"><input type="checkbox" class="ongoing-metaline-preset" value="Modern living"> Modern living</label>
+                        <label style="text-transform: none; font-weight: normal;"><input type="checkbox" class="ongoing-metaline-preset" value="Family focused"> Family focused</label>
+                    </div>
+                    <input type="text" id="ongoingProjectMetaLine" placeholder="Custom metaline or comma separated selections" required>
                 </div>
                 <div class="form-group">
                     <label for="ongoingProjectImage">Project Image</label>
@@ -1248,48 +1253,63 @@
                     <input type="text" id="ongoingDetailSummaryTitle" placeholder="Great location to match the great value">
                 </div>
                 <div class="form-group">
-                    <label for="ongoingDetailSummaryOne">Detail Page: Summary Paragraph 1</label>
-                    <textarea id="ongoingDetailSummaryOne" placeholder="Main intro paragraph"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="ongoingDetailSummaryTwo">Detail Page: Summary Paragraph 2</label>
-                    <textarea id="ongoingDetailSummaryTwo" placeholder="Second intro paragraph"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="ongoingDetailHeroImage">Detail Page: Hero Background Image</label>
-                    <input type="text" id="ongoingDetailHeroImage" placeholder="https://...">
+                    <label for="ongoingDetailSummary">Detail Page: Summary Paragraph</label>
+                    <textarea id="ongoingDetailSummary" placeholder="Main intro paragraph"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="ongoingDetailCoverImage">Detail Page: Cover Image</label>
-                    <input type="text" id="ongoingDetailCoverImage" placeholder="https://...">
+                    <div class="image-tools">
+                        <div class="image-actions">
+                            <button type="button" class="btn btn-secondary btn-small" id="uploadOngoingCoverBtn"><i class="fas fa-upload"></i> Upload Local</button>
+                            <input type="file" id="ongoingCoverUpload" accept="image/*" hidden>
+                        </div>
+                        <input type="hidden" id="ongoingDetailCoverImage">
+                        <p class="image-help">Choose one option: default image or local upload.</p>
+                        <div class="default-gallery" id="ongoingCoverDefaultGallery"></div>
+                        <img id="ongoingCoverPreview" class="selected-image-preview hidden" alt="Ongoing cover preview">
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="ongoingDetailFloorPlanImage">Detail Page: Floor Plan Image</label>
-                    <input type="text" id="ongoingDetailFloorPlanImage" placeholder="static/images/...">
+                    <label for="ongoingDetailFloorPlanImage">Detail Page: Floor Plan Image (optional, if empty will show "coming soon")</label>
+                    <div class="image-tools">
+                        <div class="image-actions">
+                            <button type="button" class="btn btn-secondary btn-small" id="uploadOngoingFloorPlanBtn"><i class="fas fa-upload"></i> Upload Local</button>
+                            <input type="file" id="ongoingFloorPlanUpload" accept="image/*" hidden>
+                        </div>
+                        <input type="hidden" id="ongoingDetailFloorPlanImage">
+                        <img id="ongoingFloorPlanPreview" class="selected-image-preview hidden" alt="Floor plan preview">
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="ongoingDetailCatalogueUrl">Detail Page: Catalogue URL</label>
-                    <input type="text" id="ongoingDetailCatalogueUrl" placeholder="https://...pdf">
+                    <label for="ongoingDetailCatalogueUrl">Detail Page: Catalogue PDF (optional, if empty will show "will be uploaded soon")</label>
+                    <div class="image-tools">
+                        <div class="image-actions">
+                            <button type="button" class="btn btn-secondary btn-small" id="uploadOngoingCatalogueBtn"><i class="fas fa-upload"></i> Upload PDF</button>
+                            <input type="file" id="ongoingCatalogueUpload" accept=".pdf" hidden>
+                        </div>
+                        <input type="text" id="ongoingDetailCatalogueUrl" readonly placeholder="No file selected">
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="ongoingDetailStats">Detail Page: Stats (one per line)</label>
-                    <textarea id="ongoingDetailStats" placeholder="6 Premium 2BHK Apartments&#10;Stilt + 2 Floors&#10;850 Sq.Ft&#10;2 Units / Floor"></textarea>
+                    <textarea id="ongoingDetailStats">6 Premium 2BHK Apartments
+Stilt + 2 Floors
+850 Sq.Ft
+2 Units / Floor</textarea>
                 </div>
                 <div class="form-group">
                     <label for="ongoingDetailHighlights">Detail Page: Highlights (one per line)</label>
-                    <textarea id="ongoingDetailHighlights" placeholder="Premium Community Design&#10;Vastu Compliant"></textarea>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom: 8px;">
+                        <label style="text-transform: none; font-weight: normal;"><input type="checkbox" class="ongoing-highlight-preset" value="Premium Community Design"> Premium Community Design</label>
+                        <label style="text-transform: none; font-weight: normal;"><input type="checkbox" class="ongoing-highlight-preset" value="Vastu Compliant"> Vastu Compliant</label>
+                        <label style="text-transform: none; font-weight: normal;"><input type="checkbox" class="ongoing-highlight-preset" value="Secured And Safe Community"> Secured And Safe Community</label>
+                        <label style="text-transform: none; font-weight: normal;"><input type="checkbox" class="ongoing-highlight-preset" value="No Common Walls"> No Common Walls</label>
+                    </div>
+                    <textarea id="ongoingDetailHighlights"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="ongoingDetailNearby">Detail Page: Nearby Places (one per line)</label>
                     <textarea id="ongoingDetailNearby" placeholder="Meridian Hospital&#10;PVR Cinemas"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="ongoingDetailAvailabilityColumns">Detail Page: Availability Columns (use | separator)</label>
-                    <input type="text" id="ongoingDetailAvailabilityColumns" placeholder="First Floor|Second Floor|Third Floor">
-                </div>
-                <div class="form-group">
-                    <label for="ongoingDetailAvailabilityRows">Detail Page: Availability Rows (one per line, format: Label|Value1|Value2|Value3)</label>
-                    <textarea id="ongoingDetailAvailabilityRows" placeholder="Front Side|Available|Booked|Available&#10;Rear Side|Booked|Available|Booked"></textarea>
                 </div>
                 <div class="modal-actions">
                     <button type="button" class="btn btn-secondary" onclick="closeModal('ongoingProjectModal')">Cancel</button>
@@ -1546,6 +1566,50 @@
             const ongoingFloorPlanUpload = document.getElementById('ongoingFloorPlanUpload');
             if (ongoingFloorPlanUpload) ongoingFloorPlanUpload.addEventListener('change', (e) => handleLocalImageUpload(e.target, 'ongoingDetailFloorPlanImage', 'ongoingFloorPlanPreview'));
 
+            const uploadOngoingCoverBtn = document.getElementById('uploadOngoingCoverBtn');
+            if (uploadOngoingCoverBtn) {
+                uploadOngoingCoverBtn.addEventListener('click', () => {
+                    const coverUpload = document.getElementById('ongoingCoverUpload');
+                    if (coverUpload) coverUpload.click();
+                });
+            }
+            
+            const ongoingCoverUpload = document.getElementById('ongoingCoverUpload');
+            if (ongoingCoverUpload) ongoingCoverUpload.addEventListener('change', (e) => handleLocalImageUpload(e.target, 'ongoingDetailCoverImage', 'ongoingCoverPreview'));
+
+            const uploadOngoingCatalogueBtn = document.getElementById('uploadOngoingCatalogueBtn');
+            if (uploadOngoingCatalogueBtn) {
+                uploadOngoingCatalogueBtn.addEventListener('click', () => {
+                    const catalogueUpload = document.getElementById('ongoingCatalogueUpload');
+                    if (catalogueUpload) catalogueUpload.click();
+                });
+            }
+
+            const ongoingCatalogueUpload = document.getElementById('ongoingCatalogueUpload');
+            if (ongoingCatalogueUpload) ongoingCatalogueUpload.addEventListener('change', async (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                try {
+                    const formData = new FormData();
+                    formData.append('document', file);
+                    const response = await fetch('/api/admin/upload-document', { method: 'POST', body: formData });
+                    const result = await response.json();
+                    if (result.ok) {
+                        document.getElementById('ongoingDetailCatalogueUrl').value = result.path;
+                        showAlert('Catalogue uploaded successfully.', 'success');
+                    } else {
+                        showAlert(result.error || 'Failed to upload document.', 'danger');
+                    }
+                } catch (error) {
+                    showAlert('Upload failed. Please try again.', 'danger');
+                } finally {
+                    e.target.value = '';
+                }
+            });
+
+            setupCheckboxesToInput('ongoing-metaline-preset', 'ongoingProjectMetaLine', ', ');
+            setupCheckboxesToInput('ongoing-highlight-preset', 'ongoingDetailHighlights', '\\n');
+
             const uploadCompletedImageBtn = document.getElementById('uploadCompletedImageBtn');
             const completedImageUpload = document.getElementById('completedImageUpload');
             if (uploadCompletedImageBtn && completedImageUpload) {
@@ -1595,6 +1659,41 @@
             if (window.innerWidth > 900) {
                 closeSidebar();
             }
+        }
+
+        function setupCheckboxesToInput(checkboxClass, inputId, separator) {
+            const checkboxes = document.querySelectorAll(`.${checkboxClass}`);
+            const input = document.getElementById(inputId);
+            if (!checkboxes.length || !input) return;
+
+            const updateInput = () => {
+                const selected = Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
+                
+                // Allow custom user text to be preserved if it's not a preset.
+                let existingVals = (input.value || '').split(separator === '\\n' ? '\n' : separator)
+                    .map(v => v.trim()).filter(Boolean);
+                
+                // We keep values that are not in the preset list at all, and append selected presets.
+                const presetValues = Array.from(checkboxes).map(cb => cb.value);
+                const customVals = existingVals.filter(v => !presetValues.includes(v));
+                
+                const finalVals = [...selected, ...customVals];
+                input.value = finalVals.join(separator === '\\n' ? '\n' : separator);
+            };
+
+            const updateCheckboxes = () => {
+                const currentVals = (input.value || '').split(separator === '\\n' ? '\n' : separator)
+                    .map(v => v.trim()).filter(Boolean);
+                
+                checkboxes.forEach(cb => {
+                    cb.checked = currentVals.includes(cb.value);
+                });
+            };
+
+            checkboxes.forEach(cb => {
+                cb.addEventListener('change', updateInput);
+            });
+            input.addEventListener('input', updateCheckboxes);
         }
 
         function setupImagePickers() {
@@ -1854,20 +1953,13 @@
             return {
                 location: document.getElementById('ongoingDetailLocation').value.trim(),
                 summary_title: document.getElementById('ongoingDetailSummaryTitle').value.trim(),
-                summary_para_one: document.getElementById('ongoingDetailSummaryOne').value.trim(),
-                summary_para_two: document.getElementById('ongoingDetailSummaryTwo').value.trim(),
-                hero_image: document.getElementById('ongoingDetailHeroImage').value.trim(),
+                summary: document.getElementById('ongoingDetailSummary').value.trim(),
                 cover_image: document.getElementById('ongoingDetailCoverImage').value.trim(),
                 floor_plan_image: document.getElementById('ongoingDetailFloorPlanImage').value.trim(),
                 catalogue_url: document.getElementById('ongoingDetailCatalogueUrl').value.trim(),
                 stats: splitLines(document.getElementById('ongoingDetailStats').value),
                 highlights: splitLines(document.getElementById('ongoingDetailHighlights').value),
-                nearby_places: splitLines(document.getElementById('ongoingDetailNearby').value),
-                availability_columns: String(document.getElementById('ongoingDetailAvailabilityColumns').value || '')
-                    .split('|')
-                    .map((entry) => entry.trim())
-                    .filter(Boolean),
-                availability_rows: parseAvailabilityRows(document.getElementById('ongoingDetailAvailabilityRows').value)
+                nearby_places: splitLines(document.getElementById('ongoingDetailNearby').value)
             };
         }
 
@@ -1885,8 +1977,7 @@
                 tag: document.getElementById('ongoingProjectTag').value.trim() || 'Ongoing',
                 title: titleValue,
                 description: document.getElementById('ongoingProjectDescription').value.trim(),
-                meta_one: document.getElementById('ongoingProjectMetaOne').value.trim(),
-                meta_two: document.getElementById('ongoingProjectMetaTwo').value.trim(),
+                metaline: document.getElementById('ongoingProjectMetaLine').value.trim(),
                 image: document.getElementById('ongoingProjectImage').value.trim(),
                 slug: slugValue,
                 detail: readOngoingDetailFromForm()
@@ -1904,17 +1995,16 @@
             const value = detail && typeof detail === 'object' ? detail : {};
             document.getElementById('ongoingDetailLocation').value = value.location || '';
             document.getElementById('ongoingDetailSummaryTitle').value = value.summary_title || '';
-            document.getElementById('ongoingDetailSummaryOne').value = value.summary_para_one || '';
-            document.getElementById('ongoingDetailSummaryTwo').value = value.summary_para_two || '';
-            document.getElementById('ongoingDetailHeroImage').value = value.hero_image || '';
+            document.getElementById('ongoingDetailSummary').value = value.summary || '';
             document.getElementById('ongoingDetailCoverImage').value = value.cover_image || '';
             document.getElementById('ongoingDetailFloorPlanImage').value = value.floor_plan_image || '';
             document.getElementById('ongoingDetailCatalogueUrl').value = value.catalogue_url || '';
             document.getElementById('ongoingDetailStats').value = Array.isArray(value.stats) ? value.stats.join('\n') : '';
             document.getElementById('ongoingDetailHighlights').value = Array.isArray(value.highlights) ? value.highlights.join('\n') : '';
             document.getElementById('ongoingDetailNearby').value = Array.isArray(value.nearby_places) ? value.nearby_places.join('\n') : '';
-            document.getElementById('ongoingDetailAvailabilityColumns').value = Array.isArray(value.availability_columns) ? value.availability_columns.join('|') : '';
-            document.getElementById('ongoingDetailAvailabilityRows').value = formatAvailabilityRows(value.availability_rows);
+            
+            // Trigger input event to update checkboxes
+            document.getElementById('ongoingDetailHighlights').dispatchEvent(new Event('input'));
         }
 
         function openOngoingProjectModal(projectId = null) {
@@ -1933,8 +2023,8 @@
                     document.getElementById('ongoingProjectTag').value = project.tag || 'Ongoing';
                     document.getElementById('ongoingProjectTitle').value = project.title || '';
                     document.getElementById('ongoingProjectDescription').value = project.description || '';
-                    document.getElementById('ongoingProjectMetaOne').value = project.meta_one || project.metaOne || '';
-                    document.getElementById('ongoingProjectMetaTwo').value = project.meta_two || project.metaTwo || '';
+                    document.getElementById('ongoingProjectMetaLine').value = project.metaline || project.meta_line || '';
+                    document.getElementById('ongoingProjectMetaLine').dispatchEvent(new Event('input'));
                     document.getElementById('ongoingProjectImage').value = project.image || '';
                     document.getElementById('ongoingProjectSlug').value = project.slug || createSlug(project.title || '');
                     writeOngoingDetailToForm(project.detail || {});
@@ -2034,8 +2124,7 @@
                 tag: document.getElementById('ongoingProjectTag').value.trim(),
                 title: titleValue,
                 description: document.getElementById('ongoingProjectDescription').value.trim(),
-                meta_one: document.getElementById('ongoingProjectMetaOne').value.trim(),
-                meta_two: document.getElementById('ongoingProjectMetaTwo').value.trim(),
+                metaline: document.getElementById('ongoingProjectMetaLine').value.trim(),
                 image: document.getElementById('ongoingProjectImage').value.trim(),
                 slug: slugValue,
                 detail: readOngoingDetailFromForm(),
@@ -2097,8 +2186,7 @@
                     <div class="card-title">${project.title || 'Ongoing Project'}</div>
                     <div class="card-text">${(project.description || '').substring(0, 120)}${project.description && project.description.length > 120 ? '...' : ''}</div>
                     <div class="meta-list">
-                        <div><strong>Meta One:</strong> ${project.meta_one || project.metaOne || '-'}</div>
-                        <div><strong>Meta Two:</strong> ${project.meta_two || project.metaTwo || '-'}</div>
+                        <div><strong>Meta Line:</strong> ${project.metaline || '-'}</div>
                         <div><strong>Slug:</strong> ${project.slug || '-'}</div>
                     </div>
                     <div class="card-actions">
